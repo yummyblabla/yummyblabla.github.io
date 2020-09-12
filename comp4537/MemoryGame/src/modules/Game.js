@@ -157,7 +157,7 @@ Game.prototype.transitionFromEndRound = function transitionFromEndRound(game) {
       return;
     }
     board.generateNewBoard();
-
+    game.setTimer(currentTime);
     game.setRoundState(ROUND_STATES.PAUSE);
   }
 };

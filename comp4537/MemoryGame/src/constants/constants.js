@@ -11,9 +11,9 @@ export let TILE_SIZE = 50;
 export const OUTER_PADDING = 20;
 export const INNER_PADDING = 10;
 
-export const TIME_FOR_PAUSE = 250;
-export const TIME_FOR_REVEAL = 1000;
-export const TIME_FOR_ROTATE = 1000;
+export const TIME_FOR_PAUSE = 750;
+export const TIME_FOR_REVEAL = 1500;
+export const TIME_FOR_ROTATE = 900;
 export const TIME_FOR_END_ROUND = 1000;
 
 export const INFO_BACKGROUND_COLOUR = '#CDCDCD';
