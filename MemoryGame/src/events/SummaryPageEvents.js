@@ -15,6 +15,7 @@ const summaryPageEventParser = (game, canvas, event) => {
 
     if (x > leftX && x < rightX && y > topY && y < bottomY) {
       game.restartGame();
+      document.getElementById('username').style.display = 'none';
     }
   }
 };
