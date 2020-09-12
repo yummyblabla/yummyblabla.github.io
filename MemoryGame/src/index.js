@@ -14,10 +14,18 @@ let game;
 const main = () => {
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.width, canvas.height);
-  // Update state
+
+  // Save canvas state
+  ctx.save();
+
+  // Update game state
+  game.updateState();
 
   // Draw on canvas
   DrawParser(game, canvas, ctx);
+
+  // Restore state
+  ctx.restore();
 
   requestAnimationFrame(main);
 };

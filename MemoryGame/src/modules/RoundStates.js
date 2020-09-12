@@ -1,0 +1,9 @@
+const ROUND_STATES = {
+  PAUSE: 'PAUSE',
+  REVEAL: 'REVEAL',
+  ROTATE: 'ROTATE',
+  USER_INPUT: 'USER_INPUT',
+  END_ROUND: 'END_ROUND',
+};
+
+export default ROUND_STATES;

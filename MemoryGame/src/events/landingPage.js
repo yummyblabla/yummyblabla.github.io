@@ -1,10 +1,11 @@
 import {
   START_GAME_BUTTON,
-} from '../constants/buttons.js';
+} from '../constants/graphics.js';
 
 const landingPageEventParser = (game, canvas, event) => {
-  const x = event.clientX;
-  const y = event.clientY;
+  const rect = canvas.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
 
   // Check for click on Start Game Button
   const leftX = (canvas.width - START_GAME_BUTTON.width) / 2;

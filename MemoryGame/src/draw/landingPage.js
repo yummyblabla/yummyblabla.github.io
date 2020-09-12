@@ -1,7 +1,8 @@
-import { START_GAME_BUTTON, BUTTON_FONT } from '../constants/buttons.js';
+import { START_GAME_BUTTON, BUTTON_FONT } from '../constants/graphics.js';
+import { BOARD_COLOUR } from '../constants/constants.js';
 
 const drawLandingPage = (game, canvas, ctx) => {
-  ctx.fillStyle = 'brown';
+  ctx.fillStyle = BOARD_COLOUR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Render Button

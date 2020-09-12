@@ -1,6 +1,7 @@
 const GAME_STATES = {
   LANDING_PAGE: 'LANDING_PAGE',
   GAME_START: 'GAME_START',
+  SUMMARY: 'SUMMARY',
 };
 
 export default GAME_STATES;
