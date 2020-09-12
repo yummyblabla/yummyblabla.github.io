@@ -24,6 +24,11 @@ Board.prototype.getY = function getY() {
   return this.y;
 };
 
+Board.prototype.setXY = function setXY(x, y) {
+  this.x = x;
+  this.y = y;
+};
+
 Board.prototype.getTiles = function getTiles() {
   return this.tiles;
 };

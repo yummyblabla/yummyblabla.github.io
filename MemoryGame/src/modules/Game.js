@@ -9,7 +9,7 @@ import SUMMARY_PAGE_STATE from './SummaryPageState.js';
 
 export default class Game {
   constructor() {
-    this.board = new Board(3, 4);
+    this.board = new Board(3, 3);
     this.gameState = GAME_STATES.LANDING_PAGE;
     this.roundState = ROUND_STATES.PAUSE;
     this.boardStateChange = BOARD_STATE_CHANGE.SAME;
@@ -207,5 +207,9 @@ Game.prototype.restartGame = function restartGame() {
   if (this.gameState === GAME_STATES.SUMMARY) {
     this.gameState = GAME_STATES.GAME_START;
     this.timer = Date.now();
+
+    const board = this.getBoard();
+    board.setXY(3, 3);
+    board.generateNewBoard(3, 3);
   }
 };
