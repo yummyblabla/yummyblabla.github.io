@@ -45,3 +45,12 @@ export const RESTART_GAME_BUTTON = {
   text: 'RESTART',
   paddingLeft: 5,
 };
+
+export const VIEW_HIGH_SCORES_BUTTON = {
+  fontSize: 15,
+  colour: '#CDCDCD',
+  width: 200,
+  height: 50,
+  text: 'VIEW HIGH SCORES',
+  paddingLeft: 5,
+};

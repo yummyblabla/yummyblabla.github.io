@@ -1,12 +1,15 @@
 /* eslint-disable max-len */
 import {
-  TILE_SIZE, OUTER_PADDING, INNER_PADDING, UNREVEALED_COLOUR, REVEALED_CORRECT_COLOUR, TIME_FOR_ROTATE, BOARD_COLOUR, PADDING_COLOUR, REVEALED_WRONG_COLOUR, INFO_BACKGROUND_COLOUR,
+  TILE_SIZE, OUTER_PADDING, INNER_PADDING, UNREVEALED_COLOUR,
+  REVEALED_CORRECT_COLOUR, TIME_FOR_ROTATE, BOARD_COLOUR, PADDING_COLOUR,
+  REVEALED_WRONG_COLOUR, INFO_BACKGROUND_COLOUR, SAME_LEVEL_MESSAGE,
+  NEXT_LEVEL_MESSAGE, PREVIOUS_LEVEL_MESSAGE, GAME_OVER_MESSAGE, TEXT_BASELINE_MIDDLE, TEXT_ALIGN_CENTER, TEXT_BASELINE_TOP,
 } from '../constants/constants.js';
 import {
   SCORE_INFO, TILES_INFO, BUTTON_FONT, TERMINATE_GAME_BUTTON,
 } from '../constants/graphics.js';
-import BOARD_STATE_CHANGE from '../modules/BoardStateChange.js';
-import ROUND_STATES from '../modules/RoundStates.js';
+import BOARD_STATE_CHANGE from '../constants/BoardStateChange.js';
+import ROUND_STATES from '../constants/RoundStates.js';
 
 /**
  * Draw Score Info on top right side of screen
@@ -23,7 +26,7 @@ const drawScore = (game, canvas, ctx) => {
 
   ctx.fillStyle = BUTTON_FONT.colour;
   ctx.font = `${BUTTON_FONT.fontSize}px ${BUTTON_FONT.fontStyle}`;
-  ctx.textBaseline = 'middle';
+  ctx.textBaseline = TEXT_BASELINE_MIDDLE;
   ctx.fillText(
     `${text}   ${game.score}`,
     canvas.width - width + paddingLeft - marginRight,
@@ -46,7 +49,7 @@ const drawTileInfo = (game, canvas, ctx) => {
 
   ctx.fillStyle = BUTTON_FONT.colour;
   ctx.font = `${BUTTON_FONT.fontSize}px ${BUTTON_FONT.fontStyle}`;
-  ctx.textBaseline = 'middle';
+  ctx.textBaseline = TEXT_BASELINE_MIDDLE;
   ctx.fillText(
     `${text}   ${game.getBoard().getFlaggedTiles().length}`,
     canvas.width - width - SCORE_INFO.width - marginRight - SCORE_INFO.marginRight + paddingLeft,
@@ -76,10 +79,10 @@ const drawGainedScore = (game, canvas, ctx) => {
   } = SCORE_INFO;
   ctx.fillStyle = BUTTON_FONT.colour;
   ctx.font = `${BUTTON_FONT.fontSize}px ${BUTTON_FONT.fontStyle}`;
-  ctx.textBaseline = 'top';
-  ctx.textAlign = 'center';
+  ctx.textBaseline = TEXT_BASELINE_TOP;
+  ctx.textAlign = TEXT_ALIGN_CENTER;
   ctx.fillText(
-    `${game.gainedScore >= 0 && '+'} ${game.gainedScore}`,
+    `${game.gainedScore >= 0 ? '+' : ''} ${game.gainedScore}`,
     canvas.width - width + gainedScorePadding,
     height + 5,
   );
@@ -99,15 +102,17 @@ const drawRoundAdvanceMessage = (game, canvas, ctx, width, x, height, y) => {
   const boardState = game.getBoardStateChange();
   let text;
   if (boardState === BOARD_STATE_CHANGE.SAME) {
-    text = 'Try Again!';
+    text = SAME_LEVEL_MESSAGE;
   } else if (boardState === BOARD_STATE_CHANGE.INCREASE) {
-    text = 'Next Level!';
+    text = NEXT_LEVEL_MESSAGE;
   } else if (boardState === BOARD_STATE_CHANGE.DECREASE) {
-    text = 'Try again :(';
+    text = PREVIOUS_LEVEL_MESSAGE;
+  } else if (boardState === BOARD_STATE_CHANGE.END_GAME) {
+    text = GAME_OVER_MESSAGE;
   }
   ctx.fillStyle = BUTTON_FONT.colour;
   ctx.font = `${BUTTON_FONT.fontSize}px ${BUTTON_FONT.fontStyle}`;
-  ctx.textBaseline = 'top';
+  ctx.textBaseline = TEXT_BASELINE_TOP;
 
   ctx.fillText(
     text,
@@ -130,7 +135,7 @@ const drawTerminateButton = (canvas, ctx) => {
 
   ctx.fillStyle = BUTTON_FONT.colour;
   ctx.font = `${fontSize}px ${BUTTON_FONT.fontStyle}`;
-  ctx.textBaseline = 'middle';
+  ctx.textBaseline = TEXT_BASELINE_MIDDLE;
   ctx.textAlign = 'left';
   ctx.fillText(
     text,
@@ -248,7 +253,11 @@ const drawRotation = (game, canvas, ctx) => {
   const currentTime = Date.now();
   ctx.fillStyle = PADDING_COLOUR;
   ctx.translate(canvas.width / 2, canvas.height / 2);
-  ctx.rotate(((currentTime - game.timer) / TIME_FOR_ROTATE) * 90 * (Math.PI / 180)); // maximum rotate 90 degrees
+  if (game.paused) {
+    ctx.rotate((game.passedTime / TIME_FOR_ROTATE) * 90 * (Math.PI / 180));
+  } else {
+    ctx.rotate(((currentTime - game.timer) / TIME_FOR_ROTATE) * 90 * (Math.PI / 180)); // maximum rotate 90 degrees
+  }
   ctx.translate(canvas.width / -2, canvas.height / -2);
   ctx.fillRect(
     startingX,

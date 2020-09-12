@@ -1,24 +1,28 @@
 import Board from './Board.js';
-import GAME_STATES from './GameStates.js';
-import ROUND_STATES from './RoundStates.js';
+import GAME_STATES from '../constants/GameStates.js';
+import ROUND_STATES from '../constants/RoundStates.js';
 import {
-  MAXIMUM_ERRORS, TIME_FOR_END_ROUND, TIME_FOR_PAUSE, TIME_FOR_REVEAL, TIME_FOR_ROTATE,
+  MAXIMUM_ERRORS,
+  MINIMUM_LEVEL, TIME_FOR_END_ROUND, TIME_FOR_PAUSE, TIME_FOR_REVEAL, TIME_FOR_ROTATE,
 } from '../constants/constants.js';
-import BOARD_STATE_CHANGE from './BoardStateChange.js';
-import SUMMARY_PAGE_STATE from './SummaryPageState.js';
+import BOARD_STATE_CHANGE from '../constants/BoardStateChange.js';
+import SUMMARY_PAGE_STATE from '../constants/SummaryPageState.js';
+import { audio } from '../index.js';
 
 export default class Game {
   constructor() {
-    this.board = new Board(3, 3);
+    this.board = new Board(MINIMUM_LEVEL, MINIMUM_LEVEL);
     this.gameState = GAME_STATES.LANDING_PAGE;
     this.roundState = ROUND_STATES.PAUSE;
     this.boardStateChange = BOARD_STATE_CHANGE.SAME;
     this.summaryPageState = SUMMARY_PAGE_STATE.USER_INPUT;
     this.timer = Date.now(); // timer for state changes
-    this.previousTime = Date.now();
     this.clickCounter = 0;
     this.score = 0;
     this.gainedScore = 0;
+    this.passedTime = 0;
+    this.timeOfPause = 0;
+    this.paused = false;
   }
 }
 
@@ -60,10 +64,6 @@ Game.prototype.getBoardStateChange = function getBoardStateChange() {
 
 Game.prototype.setBoardStateChange = function setBoardStateChange(state) {
   this.boardStateChange = state;
-};
-
-Game.prototype.setPreviousTime = function setPreviousTime(newTime) {
-  this.previousTime = newTime;
 };
 
 Game.prototype.getRoundState = function getRoundState() {
@@ -116,7 +116,6 @@ Game.prototype.transitionFromReveal = function transitionFromReveal(game) {
   const currentTime = Date.now();
   if (currentTime - game.timer >= TIME_FOR_REVEAL) {
     game.setRoundState(ROUND_STATES.ROTATE);
-    game.setPreviousTime(currentTime);
     game.setTimer(currentTime);
   }
 };
@@ -135,10 +134,14 @@ Game.prototype.transitionFromEndRound = function transitionFromEndRound(game) {
 
   if (currentTime - game.timer >= TIME_FOR_END_ROUND) {
     const board = game.getBoard();
+
     if (game.boardStateChange === BOARD_STATE_CHANGE.DECREASE) {
       board.decreaseDifficulty();
     } else if (game.boardStateChange === BOARD_STATE_CHANGE.INCREASE) {
       board.increaseDifficulty();
+    } else if (game.boardStateChange === BOARD_STATE_CHANGE.END_GAME) {
+      game.terminateGame(false);
+      return;
     }
     board.generateNewBoard();
 
@@ -151,6 +154,7 @@ Game.prototype.transitionToEndRound = function transitionToEndRound(game) {
   const currentTime = Date.now();
   game.setTimer(currentTime);
   game.setRoundState(ROUND_STATES.END_ROUND);
+  audio[0].play();
 };
 
 Game.prototype.incrementCounter = function incrementCounter() {
@@ -164,12 +168,17 @@ Game.prototype.checkInGameState = function checkInGameState(game) {
   const numOfErrors = game.clickCounter - flaggedChecked.length;
 
   if (numOfErrors >= MAXIMUM_ERRORS) {
-    game.transitionToEndRound(game);
     game.setBoardStateChange(BOARD_STATE_CHANGE.DECREASE);
 
     const roundScore = flaggedChecked.length - numOfErrors;
     game.setGainedScore(roundScore);
     game.updateScore(game.score + roundScore);
+
+    if (game.score < 0) {
+      game.setBoardStateChange(BOARD_STATE_CHANGE.END_GAME);
+    }
+
+    game.transitionToEndRound(game);
   }
 
   if (flaggedChecked.length === numOfFlaggedTiles) {
@@ -187,20 +196,29 @@ Game.prototype.checkInGameState = function checkInGameState(game) {
   }
 };
 
-Game.prototype.terminateGame = function terminateGame() {
+Game.prototype.terminateGame = function terminateGame(manualTermination) {
   if (this.gameState === GAME_STATES.GAME_START) {
     // Update score based on current state.
-    const flaggedTiles = this.getBoard().getFlaggedTiles();
-    const flaggedChecked = flaggedTiles.filter((tile) => tile.getChecked());
-    const numOfErrors = this.clickCounter - flaggedChecked.length;
-    const roundScore = flaggedChecked.length - numOfErrors;
-    this.setGainedScore(roundScore);
-    this.updateScore(this.score + roundScore);
+    if (manualTermination) {
+      const flaggedTiles = this.getBoard().getFlaggedTiles();
+      const flaggedChecked = flaggedTiles.filter((tile) => tile.getChecked());
+      const numOfErrors = this.clickCounter - flaggedChecked.length;
+      const roundScore = flaggedChecked.length - numOfErrors;
+      this.setGainedScore(roundScore);
+      this.updateScore(this.score + roundScore);
+    }
 
     this.gameState = GAME_STATES.SUMMARY;
     this.roundState = ROUND_STATES.PAUSE;
     this.summaryPageState = SUMMARY_PAGE_STATE.USER_INPUT;
+
+    document.getElementById('submitHighScore').style.display = 'block';
   }
+};
+
+Game.prototype.goToViewHighScore = function goToViewHighScore() {
+  this.summaryPageState = SUMMARY_PAGE_STATE.HIGH_SCORE;
+  document.getElementById('submitHighScore').style.display = 'none';
 };
 
 Game.prototype.restartGame = function restartGame() {
@@ -211,5 +229,23 @@ Game.prototype.restartGame = function restartGame() {
     const board = this.getBoard();
     board.setXY(3, 3);
     board.generateNewBoard(3, 3);
+    this.score = 0;
+    this.gainedScore = 0;
+    this.clickCounter = 0;
+    this.timer = Date.now();
+    this.paused = false;
   }
+};
+
+Game.prototype.pauseGame = function pauseGame() {
+  const currentTime = Date.now();
+  this.timeOfPause = currentTime;
+  this.passedTime = currentTime - this.timer;
+  this.timer += 1000 * 60 * 60;
+  this.paused = true;
+};
+
+Game.prototype.resumeGame = function resumeGame() {
+  this.timer = this.timeOfPause;
+  this.paused = false;
 };

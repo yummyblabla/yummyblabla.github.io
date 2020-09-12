@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Derrick Lee: Memory Game</title>
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+  <link rel="stylesheet" href="./css/index.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+</head>
+<body style="overflow: hidden;">
+  <div class="text-align-center">
+    <canvas id="canvas" class="margin-auto"></canvas>
+    <div id="submitHighScore" class="margin-auto" style="display: none; position: absolute; transform: translate(-50%, -50%); top: 70%; left: 50%;">
+      <form id="submitForm" class="flex-column text-align-center align-items-center">
+        <input type="text" id="username" />
+        <input type="submit" value="Submit High Score" />
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="terminateModal" style="display: none;">
+    <div class="modal-content border-radius-10" style="z-index: 100;">
+      <div class="text-align-center flex-column align-items-center">
+        <h1 class="margin-bottom-20">Terminate game?</h1>
+        <button class="margin-bottom-20 padding-10 cursor-pointer border-radius-10 background-three color-white" style="width: 100px" id="terminateGameYes">
+          <h3>Yes</h3>
+        </button>
+        <button class="margin-bottom-20 padding-10 cursor-pointer border-radius-10 background-one color-four" style="width: 100px" id="terminateGameNo">
+          <h3>No</h3>
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script type="module" src="./src/index.js"></script>
+</html>

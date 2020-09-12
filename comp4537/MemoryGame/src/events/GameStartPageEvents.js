@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { TILE_SIZE, OUTER_PADDING, INNER_PADDING } from '../constants/constants.js';
 import { TERMINATE_GAME_BUTTON } from '../constants/graphics.js';
-import ROUND_STATES from '../modules/RoundStates.js';
+import ROUND_STATES from '../constants/RoundStates.js';
 
 const gameStartPageEventParser = (game, canvas, event) => {
   const rect = canvas.getBoundingClientRect();
@@ -9,8 +9,9 @@ const gameStartPageEventParser = (game, canvas, event) => {
   const y = event.clientY - rect.top;
 
   if (x < TERMINATE_GAME_BUTTON.width && y < TERMINATE_GAME_BUTTON.height) {
-    game.terminateGame();
-    document.getElementById('username').style.display = 'block';
+    game.pauseGame();
+    const terminateModal = document.getElementById('terminateModal');
+    terminateModal.style.display = 'flex';
   }
 
   if (game.getRoundState() === ROUND_STATES.USER_INPUT) {

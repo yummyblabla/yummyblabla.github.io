@@ -1,8 +1,9 @@
 import drawLandingPage from './LandingPageDraw.js';
 
-import GAME_STATES from '../modules/GameStates.js';
+import GAME_STATES from '../constants/GameStates.js';
 import drawGameStartPage from './GameStartPageDraw.js';
 import drawSummaryPage from './SummaryPageDraw.js';
+import { BLACK_COLOR } from '../constants/constants.js';
 
 const DrawParser = (game, canvas, ctx) => {
   const mapper = {
@@ -14,7 +15,7 @@ const DrawParser = (game, canvas, ctx) => {
     mapper[game.getGameState()](game, canvas, ctx);
   } catch (err) {
     console.error(err);
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = BLACK_COLOR;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 };

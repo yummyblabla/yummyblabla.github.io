@@ -1,6 +1,6 @@
 import landingPageEventParser from './LandingPageEvents.js';
 
-import GAME_STATES from '../modules/GameStates.js';
+import GAME_STATES from '../constants/GameStates.js';
 import gameStartPageEventParser from './GameStartPageEvents.js';
 import summaryPageEventParser from './SummaryPageEvents.js';
 
