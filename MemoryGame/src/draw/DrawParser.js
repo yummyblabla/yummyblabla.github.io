@@ -1,8 +1,8 @@
-import drawLandingPage from './landingPage.js';
+import drawLandingPage from './LandingPageDraw.js';
 
 import GAME_STATES from '../modules/GameStates.js';
-import drawGameStartPage from './GameStartPage.js';
-import drawSummaryPage from './SummaryPage.js';
+import drawGameStartPage from './GameStartPageDraw.js';
+import drawSummaryPage from './SummaryPageDraw.js';
 
 const DrawParser = (game, canvas, ctx) => {
   const mapper = {
