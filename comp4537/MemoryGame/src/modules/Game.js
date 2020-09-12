@@ -23,6 +23,7 @@ export default class Game {
     this.passedTime = 0;
     this.timeOfPause = 0;
     this.paused = false;
+    this.tileCounter = 1;
   }
 }
 
@@ -44,6 +45,18 @@ Game.prototype.setGainedScore = function setGainedScore(score) {
 
 Game.prototype.resetClickCounter = function resetClickCounter() {
   this.clickCounter = 0;
+};
+
+Game.prototype.incrementTileCounter = function incrementTileCounter() {
+  this.tileCounter += 1;
+};
+
+Game.prototype.getTileCounter = function getTileCounter() {
+  return this.tileCounter;
+};
+
+Game.prototype.resetTileCounter = function resetTileCounter() {
+  this.tileCounter = 1;
 };
 
 Game.prototype.setTimer = function setTimer(newTime) {
@@ -153,6 +166,7 @@ Game.prototype.transitionToEndRound = function transitionToEndRound(game) {
   game.resetClickCounter();
   const currentTime = Date.now();
   game.setTimer(currentTime);
+  game.resetTileCounter();
   game.setRoundState(ROUND_STATES.END_ROUND);
   audio[0].play();
 };
@@ -234,6 +248,7 @@ Game.prototype.restartGame = function restartGame() {
     this.clickCounter = 0;
     this.timer = Date.now();
     this.paused = false;
+    this.tileCounter = 1;
   }
 };
 

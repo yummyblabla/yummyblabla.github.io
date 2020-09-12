@@ -47,10 +47,14 @@ const gameStartPageEventParser = (game, canvas, event) => {
     if (leftOverX > TILE_SIZE || leftOverY > TILE_SIZE) {
       return;
     }
-
-    const checked = allTiles[sectionX][sectionY].checkTile();
+    const tile = allTiles[sectionX][sectionY];
+    const tileCounter = game.getTileCounter();
+    const checked = tile.checkTile(tileCounter);
     if (checked) {
       game.incrementCounter();
+      if (!tile.getOutOfOrderFlag() && tile.getFlag()) {
+        game.incrementTileCounter();
+      }
     }
   }
 };

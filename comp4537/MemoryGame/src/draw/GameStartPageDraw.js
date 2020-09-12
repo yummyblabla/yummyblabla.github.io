@@ -3,7 +3,9 @@ import {
   TILE_SIZE, OUTER_PADDING, INNER_PADDING, UNREVEALED_COLOUR,
   REVEALED_CORRECT_COLOUR, TIME_FOR_ROTATE, BOARD_COLOUR, PADDING_COLOUR,
   REVEALED_WRONG_COLOUR, INFO_BACKGROUND_COLOUR, SAME_LEVEL_MESSAGE,
-  NEXT_LEVEL_MESSAGE, PREVIOUS_LEVEL_MESSAGE, GAME_OVER_MESSAGE, TEXT_BASELINE_MIDDLE, TEXT_ALIGN_CENTER, TEXT_BASELINE_TOP,
+  NEXT_LEVEL_MESSAGE, PREVIOUS_LEVEL_MESSAGE, GAME_OVER_MESSAGE,
+  TEXT_BASELINE_MIDDLE, TEXT_ALIGN_CENTER, TEXT_BASELINE_TOP, WHITE_COLOR,
+  REVEALED_OUTOFORDER_COLOUR,
 } from '../constants/constants.js';
 import {
   SCORE_INFO, TILES_INFO, BUTTON_FONT, TERMINATE_GAME_BUTTON,
@@ -226,6 +228,19 @@ const drawTileReveal = (game, canvas, ctx) => {
         TILE_SIZE,
         TILE_SIZE,
       );
+
+      if (tile.getFlag()) {
+        ctx.fillStyle = WHITE_COLOR;
+        const value = tile.getValue();
+        ctx.font = `${TILE_SIZE - 5}px ${BUTTON_FONT.fontStyle}`;
+        ctx.textBaseline = TEXT_BASELINE_MIDDLE;
+        ctx.textAlign = TEXT_ALIGN_CENTER;
+        ctx.fillText(
+          value,
+          startingX + OUTER_PADDING + rowIndex * (TILE_SIZE + INNER_PADDING) + (TILE_SIZE / 2),
+          startingY + OUTER_PADDING + tileIndex * (TILE_SIZE + INNER_PADDING) + (TILE_SIZE / 2) + 5,
+        );
+      }
     });
   });
 };
@@ -309,7 +324,9 @@ const drawUserInput = (game, canvas, ctx) => {
 
   allTiles.forEach((row, rowIndex) => {
     row.forEach((tile, tileIndex) => {
-      if (tile.getChecked() && tile.getFlag()) {
+      if (tile.getOutOfOrderFlag()) {
+        ctx.fillStyle = REVEALED_OUTOFORDER_COLOUR;
+      } else if (tile.getChecked() && tile.getFlag()) {
         ctx.fillStyle = REVEALED_CORRECT_COLOUR;
       } else if (tile.getChecked() && !tile.getFlag()) {
         ctx.fillStyle = REVEALED_WRONG_COLOUR;
@@ -322,6 +339,19 @@ const drawUserInput = (game, canvas, ctx) => {
         TILE_SIZE,
         TILE_SIZE,
       );
+
+      if (tile.getChecked() && tile.getFlag()) {
+        ctx.fillStyle = WHITE_COLOR;
+        const value = tile.getValue();
+        ctx.font = `${TILE_SIZE - 5}px ${BUTTON_FONT.fontStyle}`;
+        ctx.textBaseline = TEXT_BASELINE_MIDDLE;
+        ctx.textAlign = TEXT_ALIGN_CENTER;
+        ctx.fillText(
+          value,
+          startingX + OUTER_PADDING + rowIndex * (TILE_SIZE + INNER_PADDING) + (TILE_SIZE / 2),
+          startingY + OUTER_PADDING + tileIndex * (TILE_SIZE + INNER_PADDING) + (TILE_SIZE / 2) + 5,
+        );
+      }
     });
   });
 };
@@ -359,7 +389,9 @@ const drawEndRound = (game, canvas, ctx) => {
 
   allTiles.forEach((row, rowIndex) => {
     row.forEach((tile, tileIndex) => {
-      if (tile.getChecked() && tile.getFlag()) {
+      if (tile.getOutOfOrderFlag()) {
+        ctx.fillStyle = REVEALED_OUTOFORDER_COLOUR;
+      } else if (tile.getChecked() && tile.getFlag()) {
         ctx.fillStyle = REVEALED_CORRECT_COLOUR;
       } else if (tile.getChecked() && !tile.getFlag()) {
         ctx.fillStyle = REVEALED_WRONG_COLOUR;
@@ -373,6 +405,19 @@ const drawEndRound = (game, canvas, ctx) => {
         TILE_SIZE,
         TILE_SIZE,
       );
+
+      if (tile.getChecked() && tile.getFlag()) {
+        ctx.fillStyle = WHITE_COLOR;
+        const value = tile.getValue();
+        ctx.font = `${TILE_SIZE - 5}px ${BUTTON_FONT.fontStyle}`;
+        ctx.textBaseline = TEXT_BASELINE_MIDDLE;
+        ctx.textAlign = TEXT_ALIGN_CENTER;
+        ctx.fillText(
+          value,
+          startingX + OUTER_PADDING + rowIndex * (TILE_SIZE + INNER_PADDING) + (TILE_SIZE / 2),
+          startingY + OUTER_PADDING + tileIndex * (TILE_SIZE + INNER_PADDING) + (TILE_SIZE / 2) + 5,
+        );
+      }
     });
   });
 };
