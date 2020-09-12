@@ -10,6 +10,7 @@ const gameStartPageEventParser = (game, canvas, event) => {
 
   if (x < TERMINATE_GAME_BUTTON.width && y < TERMINATE_GAME_BUTTON.height) {
     game.terminateGame();
+    document.getElementById('username').style.display = 'block';
   }
 
   if (game.getRoundState() === ROUND_STATES.USER_INPUT) {

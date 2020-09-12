@@ -1,7 +1,7 @@
-import landingPageEventParser from './landingPage.js';
+import landingPageEventParser from './LandingPageEvents.js';
 
 import GAME_STATES from '../modules/GameStates.js';
-import gameStartPageEventParser from './gameStartPage.js';
+import gameStartPageEventParser from './GameStartPageEvents.js';
 import summaryPageEventParser from './SummaryPageEvents.js';
 
 const EventParser = (game, canvas, event) => {

@@ -189,10 +189,6 @@ Game.prototype.checkInGameState = function checkInGameState(game) {
 
 Game.prototype.terminateGame = function terminateGame() {
   if (this.gameState === GAME_STATES.GAME_START) {
-    this.gameState = GAME_STATES.SUMMARY;
-    this.roundState = ROUND_STATES.PAUSE;
-    this.summaryPageState = SUMMARY_PAGE_STATE.USER_INPUT;
-
     // Update score based on current state.
     const flaggedTiles = this.getBoard().getFlaggedTiles();
     const flaggedChecked = flaggedTiles.filter((tile) => tile.getChecked());
@@ -200,5 +196,16 @@ Game.prototype.terminateGame = function terminateGame() {
     const roundScore = flaggedChecked.length - numOfErrors;
     this.setGainedScore(roundScore);
     this.updateScore(this.score + roundScore);
+
+    this.gameState = GAME_STATES.SUMMARY;
+    this.roundState = ROUND_STATES.PAUSE;
+    this.summaryPageState = SUMMARY_PAGE_STATE.USER_INPUT;
+  }
+};
+
+Game.prototype.restartGame = function restartGame() {
+  if (this.gameState === GAME_STATES.SUMMARY) {
+    this.gameState = GAME_STATES.GAME_START;
+    this.timer = Date.now();
   }
 };
