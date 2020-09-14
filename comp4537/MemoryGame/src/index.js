@@ -6,6 +6,7 @@ import {
 import DrawParser from './draw/DrawParser.js';
 import EventParser from './events/EventParser.js';
 import { SCORE_INFO, TERMINATE_GAME_BUTTON, TILES_INFO } from './constants/graphics.js';
+import { sendScore } from './helpers/api.js';
 
 let canvas;
 let ctx;
@@ -87,13 +88,19 @@ const pageInit = () => {
 
   // Add Form Submit handler.
   const form = document.getElementById('submitForm');
-  function handleForm(e) {
+  async function handleForm(e) {
     e.preventDefault();
     const usernameInput = document.getElementById('username');
-    console.log(usernameInput.value);
-    console.log(game.score);
-    game.goToViewHighScore();
-    usernameInput.value = '';
+    if (game.score <= 0) {
+      game.goToViewHighScore();
+      usernameInput.value = '';
+      return;
+    }
+    const sendScoreResult = await sendScore(usernameInput.value, game.score);
+    if (sendScoreResult) {
+      game.goToViewHighScore();
+      usernameInput.value = '';
+    }
   }
   form.addEventListener('submit', handleForm);
 

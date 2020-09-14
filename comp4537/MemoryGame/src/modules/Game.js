@@ -8,6 +8,7 @@ import {
 import BOARD_STATE_CHANGE from '../constants/BoardStateChange.js';
 import SUMMARY_PAGE_STATE from '../constants/SummaryPageState.js';
 import { audio } from '../index.js';
+import { getScores } from '../helpers/api.js';
 
 export default class Game {
   constructor() {
@@ -24,6 +25,7 @@ export default class Game {
     this.timeOfPause = 0;
     this.paused = false;
     this.tileCounter = 1;
+    this.highScores = [];
   }
 }
 
@@ -230,9 +232,10 @@ Game.prototype.terminateGame = function terminateGame(manualTermination) {
   }
 };
 
-Game.prototype.goToViewHighScore = function goToViewHighScore() {
+Game.prototype.goToViewHighScore = async function goToViewHighScore() {
   this.summaryPageState = SUMMARY_PAGE_STATE.HIGH_SCORE;
   document.getElementById('submitHighScore').style.display = 'none';
+  this.highScores = await getScores();
 };
 
 Game.prototype.restartGame = function restartGame() {

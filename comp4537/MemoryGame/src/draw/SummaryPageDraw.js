@@ -95,13 +95,14 @@ const drawHighScores = (game, canvas, ctx) => {
   drawBackground(canvas, ctx);
   drawRestartButton(canvas, ctx);
 
-  const scores = [
-    { name: 'Place', score: 100 },
-    { name: 'Holder', score: 80 },
-    { name: 'For', score: 70 },
-    { name: 'Now', score: 50 },
-    { name: ':(', score: 30 },
-  ];
+  // const scores = [
+  //   { username: 'Place', score: 100 },
+  //   { username: 'Holder', score: 80 },
+  //   { username: 'For', score: 70 },
+  //   { username: 'Now', score: 50 },
+  //   { username: ':(', score: 30 },
+  // ];
+  const scores = game.highScores;
   const startingX = (canvas.width) / 2;
   const startingY = (canvas.height / 4);
   const margin = 30;
@@ -113,9 +114,9 @@ const drawHighScores = (game, canvas, ctx) => {
 
   ctx.fillText('High Scores', startingX, startingY - margin * 2);
 
-  scores.forEach(({ name, score }, index) => {
+  scores.forEach(({ username, score }, index) => {
     ctx.fillText(
-      `${name} - ${score}`,
+      `${username} - ${score}`,
       startingX,
       startingY + margin * index,
     );
