@@ -107,20 +107,50 @@ const drawHighScores = (game, canvas, ctx) => {
   const startingY = (canvas.height / 4);
   const margin = 30;
 
-  ctx.fillStyle = BUTTON_FONT.colour;
-  ctx.font = `${BUTTON_FONT.fontSize}px ${BUTTON_FONT.fontStyle}`;
-  ctx.textBaseline = TEXT_BASELINE_MIDDLE;
-  ctx.textAlign = TEXT_ALIGN_CENTER;
-
   ctx.fillText('High Scores', startingX, startingY - margin * 2);
 
-  scores.forEach(({ username, score }, index) => {
-    ctx.fillText(
-      `${username} - ${score}`,
-      startingX,
-      startingY + margin * index,
-    );
-  });
+  if (scores.length === 0) {
+    const centerX = startingX;
+    const centerY = startingY + margin * 1.5;
+    const radius = 70;
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+    ctx.closePath();
+    ctx.fillStyle = '#dddddd';
+    ctx.fill();
+
+    const timer = Date.now() % 36000000;
+    const startAngle = Math.PI * (timer / 180);
+    const endAngle = (Math.PI * (timer + 100)) / 180;
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle, false);
+    ctx.closePath();
+    ctx.fillStyle = '#2cb191';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius - 10, 0, 2 * Math.PI, false);
+    ctx.closePath();
+    ctx.fillStyle = BOARD_COLOUR;
+    ctx.fill();
+  } else {
+    ctx.fillStyle = BUTTON_FONT.colour;
+    ctx.font = `${BUTTON_FONT.fontSize}px ${BUTTON_FONT.fontStyle}`;
+    ctx.textBaseline = TEXT_BASELINE_MIDDLE;
+    ctx.textAlign = TEXT_ALIGN_CENTER;
+
+    scores.forEach(({ username, score }, index) => {
+      ctx.fillText(
+        `${username} - ${score}`,
+        startingX,
+        startingY + margin * index,
+      );
+    });
+  }
 };
 
 const SummaryPageDrawParser = (game, canvas, ctx) => {

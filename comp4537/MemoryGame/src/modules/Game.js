@@ -234,6 +234,7 @@ Game.prototype.terminateGame = function terminateGame(manualTermination) {
 
 Game.prototype.goToViewHighScore = async function goToViewHighScore() {
   this.summaryPageState = SUMMARY_PAGE_STATE.HIGH_SCORE;
+  this.highScores = [];
   document.getElementById('submitHighScore').style.display = 'none';
   this.highScores = await getScores();
 };
