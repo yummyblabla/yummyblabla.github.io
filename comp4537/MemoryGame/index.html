@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="./css/index.css" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
 </head>
-<body style="overflow: hidden;">
+<body class="overflow-hidden">
   <div class="text-align-center">
     <canvas id="canvas" class="margin-auto"></canvas>
-    <div id="submitHighScore" class="margin-auto" style="display: none; position: absolute; transform: translate(-50%, -50%); top: 70%; left: 50%;">
+    <div id="submitHighScore" class="margin-auto submit" style="display: none;">
       <form id="submitForm" class="flex-column text-align-center align-items-center">
         <input type="text" id="username" class="padding-10 border-radius-10 p" />
         <input type="submit" value="Submit High Score" class="margin-top-20 padding-20 border-radius-10 border-none cursor-pointer background-one color-white p" />
@@ -20,13 +20,13 @@
   </div>
 
   <div class="modal" id="terminateModal" style="display: none;">
-    <div class="modal-content border-radius-10" style="z-index: 100;">
+    <div class="modal-content border-radius-10">
       <div class="text-align-center flex-column align-items-center">
         <h1 class="margin-bottom-20">Terminate game?</h1>
-        <button class="margin-bottom-20 padding-10 cursor-pointer border-radius-10 background-three color-white" style="width: 100px" id="terminateGameYes">
+        <button class="margin-bottom-20 padding-10 cursor-pointer border-radius-10 background-three color-white width-100px" id="terminateGameYes">
           <h3>Yes</h3>
         </button>
-        <button class="margin-bottom-20 padding-10 cursor-pointer border-radius-10 background-one color-four" style="width: 100px" id="terminateGameNo">
+        <button class="margin-bottom-20 padding-10 cursor-pointer border-radius-10 background-one color-four width-100px" id="terminateGameNo">
           <h3>No</h3>
         </button>
       </div>

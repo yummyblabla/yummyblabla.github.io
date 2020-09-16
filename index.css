@@ -72,6 +72,10 @@ a {
 .page {
   height: calc(100vh - 160px);
 }
+.item {
+  height: 100%;
+  width: 100%;
+}
 
 /**
   Header
@@ -433,6 +437,9 @@ a {
 }
 .border-radius-20 {
   border-radius: 20px;
+}
+.border-radius-100 {
+  border-radius: 100%;
 }
 
 /**

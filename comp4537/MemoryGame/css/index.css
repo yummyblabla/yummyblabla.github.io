@@ -68,6 +68,9 @@ a {
   max-width: 1080px;
   width: 100%;
 }
+.width-100px {
+  width: 100px;
+}
 
 .page {
   height: calc(100vh - 160px);
@@ -126,6 +129,13 @@ a {
 }
 .background-none {
   background: none;
+}
+
+/**
+  Display
+**/
+.display-none {
+  display: none !important;
 }
 
 /**
@@ -556,4 +566,15 @@ a {
 }
 .grow:hover {
   transform: scale(1.05);
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.submit {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 70%;
+  left: 50%;
 }
