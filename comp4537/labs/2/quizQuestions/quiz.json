@@ -1,0 +1,49 @@
+{
+  "questions": [
+    {
+      "question": "What is JavaScript?",
+      "choices": [
+        "A scripting language that enables you to create dynamically updating content, control multimedia, and animate images",
+        "A programming language and computing platform first released by Sun Microsystems in 1995",
+        "An interpreted, object-oriented, high-level programming language with dynamic semantics"
+      ],
+      "answer": 0
+    },
+    {
+      "question": "What keywords should you use to initialize variables?",
+      "choices": [
+        "var",
+        "let, const",
+        "int, str"
+      ],
+      "answer": 1
+    },
+    {
+      "question": "How do you convert a number to a string?",
+      "choices": [
+        "let num = 15; let string = num.toString();",
+        "let num = 15; let string = num.convertToString();",
+        "let num = 15; let string = string(num)"
+      ],
+      "answer": 0
+    },
+    {
+      "question": "How do you add an element to an array?",
+      "choices": [
+        "array.append(element);",
+        "array.push(element);",
+        "array.add(element);"
+      ],
+      "answer": 1
+    },
+    {
+      "question": "Which of these are not datatypes in Javascript?",
+      "choices": [
+        "Object",
+        "Boolean",
+        "Linked List"
+      ],
+      "answer": 1
+    }
+  ]
+}

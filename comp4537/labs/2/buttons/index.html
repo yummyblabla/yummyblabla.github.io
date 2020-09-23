@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Derrick Lee: COMP 4537</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Quicksand&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="../../../../index.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="background-one color-four flex-row align-items-center">
+    <h1 class="margin-left-20">
+      <a href="./../../../../index.html">
+        Derrick Lee
+      </a>
+    </h1>
+  </header>
+
+  <!-- Body -->
+  <div class="padding-top-20 padding-left-20 padding-right-20 flex-column">
+    <div id="buttonFirstRow"></div>
+    <div id="buttonSecondRow"></div>
+  </div>
+</body>
+<script>
+  function addButtons() {
+    const firstRow = document.getElementById('buttonFirstRow');
+    const secondRow = document.getElementById('buttonSecondRow');
+    for (let i = 65; i < 78; i += 1) {
+      const button = document.createElement('button');
+      const letter = String.fromCharCode(i);
+      button.style="border: 1px solid black; width: 25px;"
+      button.classList="text-align-center";
+      button.innerHTML = letter;
+      button.onclick = () => {
+        alert(letter);
+      };
+      firstRow.appendChild(button);
+    }
+    for (let i = 78; i < 91; i += 1) {
+      const button = document.createElement('button');
+      button.style="border: 1px solid black; width: 25px;"
+      button.classList="text-align-center";
+      const letter = String.fromCharCode(i);
+      button.innerHTML = letter;
+      button.onclick = () => {
+        alert(letter);
+      };
+      secondRow.appendChild(button);
+    }
+  }
+  addButtons();
+</script>
+</html>
