@@ -17,6 +17,9 @@ export const sendScore = async (username, score) => {
     const response = await fetch(
       `${API_URL}/scores`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ username, score }),
       },
     );
