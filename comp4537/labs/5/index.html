@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dictionary Page</title>
+</head>
+<body>
+  <h1>Dictionary Page</h1>
+  <button style="margin-bottom:20px;">
+    <a href="./search.html">Search for a word</a>
+  </button>
+  <br />
+  <form onsubmit="submitWord(event)">
+    <label>
+      <span>Add a word:</span>
+      <input id="word" placeholder="Word" />
+    </label>
+    <br />
+    <label>
+      Definition:
+      <input id="definition" placeholder="Definition" />
+    </label>
+    <br />
+    
+    <input type="submit" />
+  </form>
+  <br />
+
+</body>
+<script src="./index.js"></script>
+</html>
